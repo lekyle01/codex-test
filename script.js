@@ -22,15 +22,23 @@ const stateNames = {
   WV: "West Virginia", WI: "Wisconsin", WY: "Wyoming", DC: "District of Columbia"
 };
 
-const federalBracketsSingle2024 = [
-  [11600, 0.1],
-  [47150, 0.12],
-  [100525, 0.22],
-  [191950, 0.24],
-  [243725, 0.32],
-  [609350, 0.35],
+// Projected 2026 U.S. federal income tax brackets for SINGLE filers.
+const federalBracketsSingle2026Projected = [
+  [12450, 0.1],
+  [50650, 0.12],
+  [107650, 0.22],
+  [205500, 0.24],
+  [261450, 0.32],
+  [653500, 0.35],
   [Infinity, 0.37]
 ];
+
+const taxConfig2026Projected = {
+  standardDeduction: 15600,
+  socialSecurityWageBase: 181000,
+  medicareRate: 0.0145,
+  socialSecurityRate: 0.062
+};
 
 const stateSelect = document.getElementById("state-select");
 Object.keys(stateNames)
@@ -94,7 +102,7 @@ function estimateFederalTax(taxableIncome) {
   let tax = 0;
   let lower = 0;
 
-  for (const [upper, rate] of federalBracketsSingle2024) {
+  for (const [upper, rate] of federalBracketsSingle2026Projected) {
     if (remaining <= 0) break;
     const bracketTaxable = Math.min(remaining, upper - lower);
     tax += bracketTaxable * rate;
@@ -109,14 +117,14 @@ function calculateSalary() {
   const grossSalary = Number(document.getElementById("gross-salary").value) || 0;
   const preTaxContrib = Number(document.getElementById("pretax-contrib").value) || 0;
   const state = stateSelect.value;
-  const standardDeduction = 14600;
 
   const adjustedGross = Math.max(0, grossSalary - preTaxContrib);
-  const taxableIncome = Math.max(0, adjustedGross - standardDeduction);
+  const taxableIncome = Math.max(0, adjustedGross - taxConfig2026Projected.standardDeduction);
   const federalTax = estimateFederalTax(taxableIncome);
 
-  const socialSecurityTax = Math.min(adjustedGross, 168600) * 0.062;
-  const medicareTax = adjustedGross * 0.0145;
+  const socialSecurityTax = Math.min(adjustedGross, taxConfig2026Projected.socialSecurityWageBase)
+    * taxConfig2026Projected.socialSecurityRate;
+  const medicareTax = adjustedGross * taxConfig2026Projected.medicareRate;
   const fica = socialSecurityTax + medicareTax;
 
   const stateTaxRate = stateEffectiveRates[state] ?? 0;
