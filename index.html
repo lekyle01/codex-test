@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Budget & Salary Calculator</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <header>
+        <h1>Budget & Salary Calculator</h1>
+        <p>
+          Add your income, fixed expenses, and fixed savings/investments to see
+          your remaining money. Then estimate after-tax salary by U.S. state.
+        </p>
+      </header>
+
+      <section class="card" aria-labelledby="budget-heading">
+        <h2 id="budget-heading">Monthly Budget Planner</h2>
+
+        <div class="grid">
+          <div>
+            <h3>Income Sources</h3>
+            <div id="income-list" class="line-items" aria-live="polite"></div>
+            <button type="button" id="add-income-btn">+ Add Income Source</button>
+          </div>
+
+          <div>
+            <h3>Fixed Expenses</h3>
+            <div id="expense-list" class="line-items" aria-live="polite"></div>
+            <button type="button" id="add-expense-btn">+ Add Fixed Expense</button>
+          </div>
+
+          <div>
+            <h3>Fixed Savings & Investments</h3>
+            <div id="savings-list" class="line-items" aria-live="polite"></div>
+            <button type="button" id="add-savings-btn">+ Add Savings/Investment</button>
+          </div>
+        </div>
+
+        <div class="totals" aria-live="polite">
+          <p><strong>Total Monthly Income:</strong> <span id="total-income">$0.00</span></p>
+          <p><strong>Total Monthly Expenses:</strong> <span id="total-expenses">$0.00</span></p>
+          <p><strong>Total Monthly Savings/Investments:</strong> <span id="total-savings">$0.00</span></p>
+          <p class="remaining">
+            <strong>Remaining Monthly Money:</strong>
+            <span id="remaining-money">$0.00</span>
+          </p>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="salary-heading">
+        <h2 id="salary-heading">After-Tax Salary Calculator (by State)</h2>
+        <div class="salary-grid">
+          <label>
+            Gross Annual Salary
+            <input id="gross-salary" type="number" min="0" step="100" value="75000" />
+          </label>
+
+          <label>
+            State
+            <select id="state-select"></select>
+          </label>
+
+          <label>
+            401(k)/Pre-tax Contributions (Annual)
+            <input id="pretax-contrib" type="number" min="0" step="100" value="0" />
+          </label>
+
+          <button type="button" id="calculate-salary-btn">Calculate After-Tax Pay</button>
+        </div>
+
+        <div class="totals" aria-live="polite">
+          <p><strong>Taxable Income:</strong> <span id="taxable-income">$0.00</span></p>
+          <p><strong>Estimated Federal Tax:</strong> <span id="federal-tax">$0.00</span></p>
+          <p><strong>Estimated FICA (SS + Medicare):</strong> <span id="fica-tax">$0.00</span></p>
+          <p><strong>Estimated State Tax:</strong> <span id="state-tax">$0.00</span></p>
+          <p class="remaining"><strong>Estimated Annual Take-Home:</strong> <span id="annual-net">$0.00</span></p>
+          <p class="remaining"><strong>Estimated Monthly Take-Home:</strong> <span id="monthly-net">$0.00</span></p>
+          <p class="note">
+            Estimates use projected 2026 U.S. federal brackets for single filers, projected standard deduction,
+            and simplified state effective rates.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
